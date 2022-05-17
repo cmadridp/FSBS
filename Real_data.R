@@ -151,10 +151,7 @@ h_bar=sqrt(mean(diag(h_bar_aux)))
 
 h=60
 tau=0.00145#june
-start_time <- Sys.time()
 S_1=seedBS(dat, s.inter, h, h_bar, tau, d,n )
-end_time <- Sys.time()
-end_time - start_time
 S_1+1939
 
 
