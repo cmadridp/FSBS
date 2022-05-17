@@ -1,6 +1,6 @@
 rm(list=ls())
 
-#load libraries
+#Load libraries
 library(fda)
 library(ks)
 library(mvtnorm)
@@ -40,11 +40,11 @@ crit_bghk <- c(crit90_bghk[d_PC], crit95_bghk[d_PC], crit99_bghk[d_PC])
 Tb=200
 r=1
 C=3
-#the responses lies in dimension 3
+#The responses lies in dimension 3
 n=50
-#the observations lies in dimension 1
+#The observations lies in dimension 1
 d=1
-#we define the n_ts
+#We define the n_ts
 nts<-matrix(NaN,nrow=Tb, ncol=1)
 for(i in 1:Tb){
   nts[i]=n
@@ -72,7 +72,7 @@ f3_star=function(x){
 ####################
 #################### SIMULATION WITH REPETITION
 ####################
-#competitor results matrices
+#Competitor results matrices
 #EJS
 results_EJS_90=matrix(nrow=0,ncol=2)
 results_EJS_95=matrix(nrow=0,ncol=2)
@@ -166,7 +166,7 @@ count_iter=0
 
 for(rep in 1:repetitions){
   count_iter=count_iter+1
-  #we create the xs
+  #We create the xs
   X_s<-matrix(NaN,nrow=N_t, ncol=d)
   set.seed(rep)
   for(i in 1:N_t){
@@ -178,7 +178,7 @@ for(rep in 1:repetitions){
 
   
   
-  #we create the \xi_s--------------------------------------------
+  #We create the \xi_s--------------------------------------------
   val_in_0_1=0.5
   number_basis=50
   set.seed(rep)
@@ -190,11 +190,11 @@ for(rep in 1:repetitions){
     for (i in 1:n) {
       #xti is X_s[aux-nts[t]+i,]
       X_s[aux-nts[t]+i,]
-      #creating xi_0 at xti to be aux_2
+      #Xreating xi_0 at xti to be aux_2
       b_t_0=b_t_js_0[,1]
       aux_2=0
       for (j in 1:number_basis) {
-        #creating h_j at x_ti to be aux_1
+        #Xreating h_j at x_ti to be aux_1
         aux_1=1
         for(k in 1:d)
         {
@@ -202,10 +202,10 @@ for(rep in 1:repetitions){
         }
         aux_2=aux_2+b_t_0[j]*(aux_1)
       }
-      #creating xi_t at xti to be aux_3
+      #Xreating xi_t at xti to be aux_3
       aux_3=val_in_0_1^t*(aux_2)
       for(l in 1:t){
-        #we need xi_t_aux(x,i) to be aux_4
+        #We need xi_t_aux(x,i) to be aux_4
         b_t_0_js=b_t_js_0[,l]
         aux_4=0
         for (j in 1:number_basis) {
@@ -222,7 +222,7 @@ for(rep in 1:repetitions){
       xi_t_matrix[i,t]=aux_3
     }
   }
-  #we create the delta_ts--------------------------------------
+  #We create the delta_ts--------------------------------------
   delta_s<-matrix(NaN,nrow=N_t, ncol=1)
   m=max(nts)
   sigma=matrix(NaN,nrow=m,ncol=m)
@@ -258,7 +258,7 @@ for(rep in 1:repetitions){
   
   
   
-  #we create the y_i_ts----------------------------------------
+  #We create the y_i_ts----------------------------------------
   y_t_is=matrix(NaN,nrow=N_t,ncol=1)
   aux=0
   for(t in 1:Tb)
@@ -291,7 +291,7 @@ for(rep in 1:repetitions){
   #y_t_is
   
   
-  #we create the data matrix containing x_t_is, y_t_is and labels
+  #We create the data matrix containing x_t_is, y_t_is and labels
   labels_Ts=matrix(NaN,nrow=N_t,ncol=1)
   aux1=0
   for (i in 1:Tb) {
@@ -300,7 +300,7 @@ for(rep in 1:repetitions){
       labels_Ts[aux1-nts[i]+j]=i
     }
   }
-  #labels_Ts
+  #Labels_Ts
   dat=matrix(NaN,nrow=N_t)
   dat=cbind(labels_Ts,X_s)
   dat=cbind(dat,y_t_is)
@@ -309,15 +309,15 @@ for(rep in 1:repetitions){
   
   
   
-  #using the data---------------------------------------------------
-  #the choice of bandwidth h_bar
+  #Using the data---------------------------------------------------
+  #The choice of bandwidth h_bar
   H_bar_stimated=hpi(X_s)
   H_bar_stimated
   h_bar=H_bar_stimated
   ######################################################
   ######################### CV #########################
   ######################################################
-  #creating testing and training sets.
+  #Creating testing and training sets.
   dat_train=dat[(n+1):(2*n),]
   dat_test=dat[1:n,]
   for(i in 1:(Tb/2-1)){
@@ -329,12 +329,12 @@ for(rep in 1:repetitions){
   dat_train[,1]=ceiling(dat_train[,1]/2)
   #dat_train
   
-  #we create the seeded intervals to work with training data
+  #We create the seeded intervals to work with training data
   s.inter_train<-seeded.intervals(Tb/2,C)
   #s.inter_train
   
   
-  #we create the estimator functions 
+  #We create the estimator functions 
   g_hat_i=function(eta1,eta2,h,x,dat_train,h_bar,phat)
   {
     res=0
@@ -345,13 +345,13 @@ for(rep in 1:repetitions){
     return(res)
   }
   
-  #we create the possible values for h and tau
+  #We create the possible values for h and tau
   h_int=seq(0.24,0.26,0.01)
   l_h_int=length(h_int)
   tau_int=c(1.3,1.4,1.5)
   l_tau_int=length(tau_int)
   
-  #we compute errors of estimation
+  #We compute errors of estimation
   errors=matrix(NaN,l_h_int,l_tau_int)
   for (ind1 in 1:l_h_int) {
     for (ind2 in 1:l_tau_int) {
@@ -388,9 +388,10 @@ for(rep in 1:repetitions){
   tau_min=max(h_tau[,2])
   tau_min=tau_int[tau_min]
   
-  #using the data---------------------------------------------------
+  #Using the data---------------------------------------------------
   #we create the seeded intervals
   s.inter<-seeded.intervals(Tb,C)
+  #Using FSBS
   S_1=seedBS(dat, s.inter, h_min, h_bar, tau_min, d,n )
   aux_matrix=matrix(NaN,length(S_1),2)
   aux_matrix[,1]=count_iter
@@ -452,7 +453,7 @@ for(rep in 1:repetitions){
   HK_result
   
   
-  #results_EJS_90
+  #Results_EJS_90
   aux_matrix_EJS_90=matrix(NaN,length(EJS_result[[1]]),2)
   aux_matrix_EJS_90[,1]=count_iter
   aux_matrix_EJS_90[,2]=sort(EJS_result[[1]])
@@ -469,7 +470,7 @@ for(rep in 1:repetitions){
   K_d_EJS_90=rbind(K_d_EJS_90,dist_EJS_90)
   sum_kd_EJS_90=sum_kd_EJS_90+dist_EJS_90
   
-  #results_EJS_95
+  #Results_EJS_95
   aux_matrix_EJS_95=matrix(NaN,length(EJS_result[[2]]),2)
   aux_matrix_EJS_95[,1]=count_iter
   aux_matrix_EJS_95[,2]=sort(EJS_result[[2]])
@@ -485,7 +486,7 @@ for(rep in 1:repetitions){
   K_d_EJS_95=rbind(K_d_EJS_95,dist_EJS_95)
   sum_kd_EJS_95=sum_kd_EJS_95+dist_EJS_95
   
-  #results_EJS_99
+  #Results_EJS_99
   aux_matrix_EJS_99=matrix(NaN,length(EJS_result[[3]]),2)
   aux_matrix_EJS_99[,1]=count_iter
   aux_matrix_EJS_99[,2]=sort(EJS_result[[3]])
@@ -502,7 +503,7 @@ for(rep in 1:repetitions){
   K_d_EJS_99=rbind(K_d_EJS_99,dist_EJS_99)
   sum_kd_EJS_99=sum_kd_EJS_99+dist_EJS_99
   
-  #results_BGHK_90
+  #Results_BGHK_90
   aux_matrix_BGHK_90=matrix(NaN,length(BGHK_result[[1]]),2)
   aux_matrix_BGHK_90[,1]=count_iter
   aux_matrix_BGHK_90[,2]=sort(BGHK_result[[1]])
@@ -519,7 +520,7 @@ for(rep in 1:repetitions){
   K_d_BGHK_90=rbind(K_d_BGHK_90,dist_BGHK_90)
   sum_kd_BGHK_90=sum_kd_BGHK_90+dist_BGHK_90
   
-  #results_BGHK_95
+  #Results_BGHK_95
   aux_matrix_BGHK_95=matrix(NaN,length(BGHK_result[[2]]),2)
   aux_matrix_BGHK_95[,1]=count_iter
   aux_matrix_BGHK_95[,2]=sort(BGHK_result[[2]])
@@ -536,7 +537,7 @@ for(rep in 1:repetitions){
   K_d_BGHK_95=rbind(K_d_BGHK_95,dist_BGHK_95)
   sum_kd_BGHK_95=sum_kd_BGHK_95+dist_BGHK_95
   
-  #results_BGHK_99
+  #Results_BGHK_99
   aux_matrix_BGHK_99=matrix(NaN,length(BGHK_result[[3]]),2)
   aux_matrix_BGHK_99[,1]=count_iter
   aux_matrix_BGHK_99[,2]=sort(BGHK_result[[3]])
@@ -553,7 +554,7 @@ for(rep in 1:repetitions){
   K_d_BGHK_99=rbind(K_d_BGHK_99,dist_BGHK_99)
   sum_kd_BGHK_99=sum_kd_BGHK_99+dist_BGHK_99
   
-  #results_HK_90
+  #Results_HK_90
   aux_matrix_HK_90=matrix(NaN,length(HK_result[[1]]),2)
   aux_matrix_HK_90[,1]=count_iter
   aux_matrix_HK_90[,2]=sort(HK_result[[1]])
@@ -571,7 +572,7 @@ for(rep in 1:repetitions){
   K_d_HK_90=rbind(K_d_HK_90,dist_HK_90)
   sum_kd_HK_90=sum_kd_HK_90+dist_HK_90
   
-  #results_HK_95
+  #Results_HK_95
   aux_matrix_HK_95=matrix(NaN,length(HK_result[[2]]),2)
   aux_matrix_HK_95[,1]=count_iter
   aux_matrix_HK_95[,2]=sort(HK_result[[2]])
@@ -588,7 +589,7 @@ for(rep in 1:repetitions){
   K_d_HK_95=rbind(K_d_HK_95,dist_HK_95)
   sum_kd_HK_95=sum_kd_HK_95+dist_HK_95
   
-  #results_HK_99
+  #Results_HK_99
   aux_matrix_HK_99=matrix(NaN,length(HK_result[[3]]),2)
   aux_matrix_HK_99[,1]=count_iter
   aux_matrix_HK_99[,2]=sort(HK_result[[3]])
