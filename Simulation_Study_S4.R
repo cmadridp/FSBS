@@ -16,7 +16,7 @@ source("Competitors_Functions.R")
 
 
 
-############################################### FSBS Scenario 3 #########################################
+############################################### FSBS Scenario 4 #########################################
 
 
 Tb=200
@@ -60,7 +60,7 @@ scale_hd=matrix(nrow=0,ncol=1)
 hd=matrix(nrow=0,ncol=1)
 results_FSBS=matrix(nrow=0,ncol=2)
 count_iter=0
-start_time <- Sys.time()
+
 for(rep in 1:repetitions){
   count_iter=count_iter+1
   #we create the xs
@@ -332,5 +332,3 @@ for(rep in 1:repetitions){
   K_d=rbind(K_d,dist)
   sum_kd=sum_kd+dist
 }
-end_time <- Sys.time()
-end_time - start_time
