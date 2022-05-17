@@ -49,7 +49,6 @@ FSBS<-function(s,e,h,h_bar,tau,rho,dat,s.inter,samp,d,CUSUM_mat){
 
 #s.inter= seeded intervals. Has three columns. The first one is a label of the layer the interval belongs to
 #d= dim of x_t,i's
-#n_bar=dim of y_t,i's
 #S empty vector to store changepoints
 
 seedBS <- function (dat, s.inter, h, h_bar, tau, d,n ){
