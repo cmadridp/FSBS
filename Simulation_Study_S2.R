@@ -238,7 +238,7 @@ for(rep in 1:repetitions){
   delta_s<-matrix(NaN,nrow=N_t, ncol=1)
   m=max(nts)
   #m
-  #ruido gaussiano
+  #Gaussian noise
   sigma=matrix(NaN,nrow=m,ncol=m)
   for(i in 1:m){
     for(j in 1:m){
