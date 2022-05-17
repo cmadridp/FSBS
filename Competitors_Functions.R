@@ -18,6 +18,9 @@ post_cp_extract <- function(result){
   if(length(cp_result99)==0){cp_result99 <- NULL}
   return(list(cp_result90=cp_result90, cp_result95=cp_result95, cp_result99=cp_result99))
 }
+###########################################################################################
+
+
 vari <- function(Y){
   te <- dim(Y)[1]
   p <- dim(Y)[2]
@@ -47,7 +50,7 @@ vari <- function(Y){
   return(lonrun)
 }
 
-
+###################################### Competitor 1 ########################################
 BGHK_BS_functional <- function(data, d=2, num_basis=20, rangeval=c(0,1), no_grids=1000, start, end, critical_values,
                                previous_est_cps=c(0,0,0)){
   N <- end-start+1
@@ -89,6 +92,7 @@ BGHK_BS_functional <- function(data, d=2, num_basis=20, rangeval=c(0,1), no_grid
   }
 }
 
+###################################### Competitor 2 ########################################
 HK_BS_functional <- function(data, d=2, num_basis=20, rangeval=c(0,1), no_grids=1000, start, end, critical_values,
                              previous_est_cps=c(0,0,0)){
   N <- end-start+1
@@ -131,7 +135,8 @@ HK_BS_functional <- function(data, d=2, num_basis=20, rangeval=c(0,1), no_grids=
 }
 
 
-###############################################################
+
+###################################### Competitor 3 ########################################
 # SN CP detection for functional time series
 SN_BS_functional <- function(data, d=2, num_basis=20, rangeval=c(0,1), no_grids=1000, start, end, critical_values,
                              previous_est_cps=c(0,0,0)){
