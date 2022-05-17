@@ -67,7 +67,6 @@ scale_hd=matrix(nrow=0,ncol=1)
 hd=matrix(nrow=0,ncol=1)
 results_FSBS=matrix(nrow=0,ncol=2)
 count_iter=0
-start_time <- Sys.time()
 for(rep in 1:repetitions){
   count_iter=count_iter+1
   #we create the xs
