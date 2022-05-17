@@ -175,7 +175,7 @@ scale_hd=matrix(nrow=0,ncol=1)
 hd=matrix(nrow=0,ncol=1)
 results_FSBS=matrix(nrow=0,ncol=2)
 count_iter=0
-start_time <- Sys.time()
+
 for(rep in 1:repetitions){
   count_iter=count_iter+1
   #we create the xs
@@ -623,5 +623,4 @@ for(rep in 1:repetitions){
   K_d_HK_99=rbind(K_d_HK_99,dist_HK_99)
   sum_kd_HK_99=sum_kd_HK_99+dist_HK_99
 }
-end_time <- Sys.time()
-end_time - start_time
+
