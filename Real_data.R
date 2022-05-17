@@ -13,7 +13,7 @@ source("FSBS.R")
 source("Auxiliar_Functions_FSBS.R")
 
 
-#The one I want
+#Extracting the data
 data=stack("sst.mon.mean.nc")
 data1=nc_open("sst.mon.mean.nc")
 lat=ncvar_get(data1,'lat')
@@ -41,13 +41,13 @@ m1.data=data[[m1.indices]]
 
 image.plot(lon,rev(lat),sst[,length(lat):1,m1.indices[80]],xlab='Longitud',ylab='Latitude')
 title("Sea Surface Temperature April 2019")
-rect(xleft=251,xright = 300,ybottom=1,ytop=50, density=0, col = "green") #Red indicates the reference region to show in paper
-rect(xleft=153.5,xright = 162.5,ybottom=-28.5,ytop=-24.5, density=0, col = "black",lwd = 2.) #Regions of interest corresponding to the Caribbean Sea 
-rect(xleft=110.5,xright = 157.5,ybottom=-39.5,ytop=-10.5, density=0, col = "black",lwd=2) #Regions of interest corresponding to the Caribbean Sea 
+rect(xleft=251,xright = 300,ybottom=1,ytop=50, density=0, col = "green") 
+rect(xleft=153.5,xright = 162.5,ybottom=-28.5,ytop=-24.5, density=0, col = "black",lwd = 2.) #Regions of interest 
+rect(xleft=110.5,xright = 157.5,ybottom=-39.5,ytop=-10.5, density=0, col = "black",lwd=2) #Regions of interest
 
 
 
-#plot only close to australia
+#plot of australia
 lon_australia=matrix(NaN,48,1)
 aux=-1
 for(i in 1:48){
@@ -63,19 +63,15 @@ for(i in 1:30){
 image.plot(lon_australia,rev(lat_australia),sst[111:158,130:101,m1.indices[80]],xlab='Longitude',ylab='Latitude',xlim=c(110.5,157.5))
 title("SST Australia June 2019")
 
-#The region of interest is a 10x5 grid, i.e. n=50
+#The region of interest 
 lat_grid=seq(-39.5,-10.5,1)
 lon_grid=seq(110.5,157.5,1)
-#lat_grid=c(-28.5,-27.5,-26.5,-25.5,-24.5)
-#lon_grid=c(153.5,154.5,155.5,156.5,157.5,158.5,159.5,160.5,161.5,162.5)
 matrix_lon_lat=matrix=matrix(NaN,1440,2)
 for(i in 0:29){
   matrix_lon_lat[(i*48+1):((i+1)*48),]=lon_grid
   matrix_lon_lat[(i*48+1):((i+1)*48),2]=lat_grid[i+1]
 }
 
-#as.vector(sst[104:113,119:115,m1.indices[50]])
-#sst[154:163,119:110,m1.indices[50]]
 aux_matrix_sst=matrix(NaN,1440,80)
 for(i in 1:80){
   for(j in 1:30){
@@ -88,14 +84,14 @@ for(i in 1:80){
   
 }
 
-#-------Putting the data together as in my format-------#
+#-------Putting the data together in the format required to use FSBS -------#
 
 Tb=80
 r=1
 C=3
-#the responses lies in dimension 3
+#the responses lies in dimension 1
 n=1440
-#the observations lies in dimension 1
+#the observations lies in dimension 2
 d=2
 #we define the n_ts
 nts<-matrix(NaN,nrow=Tb, ncol=1)
@@ -148,9 +144,9 @@ h_bar_aux=H_bar_stimated
 h_bar=sqrt(mean(diag(h_bar_aux)))
 
 
-
+#june
 h=60
-tau=0.00145#june
+tau=0.00145
 S_1=seedBS(dat, s.inter, h, h_bar, tau, d,n )
 S_1+1939
 
