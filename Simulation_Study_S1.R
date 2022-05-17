@@ -1,6 +1,6 @@
 rm(list=ls())
 
-#load libraries
+#Load libraries
 library(fda)
 library(ks)
 library(mvtnorm)
@@ -17,30 +17,21 @@ source("Distances.R")
 Tb=200
 r=1
 C=3
-#the responses lies in dimension 3
+#The responses lies in dimension 3
 n=1
-#the observations lies in dimension 1
+#The observations lies in dimension 1
 d=1
-#we define the n_ts
+#We define the n_ts
 nts<-matrix(NaN,nrow=Tb, ncol=1)
 for(i in 1:Tb){
   nts[i]=n
 }
-#for(i in 201:300){
-# nts[i]=10
-#}
-#for(i in 301:400){
-#  nts[i]=7
-#}
-#for(i in 401:Tb){
-#  nts[i]=13
-#}
 N_t=sum(nts)
 N_t
 
 
 
-#we create our functions f*s
+#We create our functions f*s
 f1_star=function(x){
   aux=6*cos(x)
   return(aux)
@@ -69,7 +60,7 @@ results_FSBS=matrix(nrow=0,ncol=2)
 count_iter=0
 for(rep in 1:repetitions){
   count_iter=count_iter+1
-  #we create the xs
+  #We create the xs
   X_s<-matrix(NaN,nrow=N_t, ncol=d)
   set.seed(rep)
   for(i in 1:N_t){
@@ -81,7 +72,7 @@ for(rep in 1:repetitions){
   #X_s
   
   
-  #we create the \xi_s--------------------------------------------
+  #We create the \xi_s--------------------------------------------
   val_in_0_1=0.5
   number_basis=50
   set.seed(rep)
@@ -105,7 +96,7 @@ for(rep in 1:repetitions){
         }
         aux_2=aux_2+b_t_0[j]*(aux_1)
       }
-      #creating xi_t at xti to be aux_3
+      #Creating xi_t at xti to be aux_3
       aux_3=val_in_0_1^t*(aux_2)
       for(l in 1:t){
         #we need xi_t_aux(x,i) to be aux_4
@@ -125,7 +116,7 @@ for(rep in 1:repetitions){
       xi_t_matrix[i,t]=aux_3
     }
   }
-  #we create the delta_ts--------------------------------------
+  #We create the delta_ts--------------------------------------
   delta_s<-matrix(NaN,nrow=N_t, ncol=1)
   m=max(nts)
   #m
@@ -168,7 +159,7 @@ for(rep in 1:repetitions){
   
   
   
-  #we create the y_i_ts----------------------------------------
+  #We create the y_i_ts----------------------------------------
   y_t_is=matrix(NaN,nrow=N_t,ncol=1)
   aux=0
   for(t in 1:Tb)
@@ -201,7 +192,7 @@ for(rep in 1:repetitions){
   y_t_is
   
   
-  #we create the data matrix containing x_t_is, y_t_is and labels
+  #We create the data matrix containing x_t_is, y_t_is and labels
   labels_Ts=matrix(NaN,nrow=N_t,ncol=1)
   aux1=0
   for (i in 1:Tb) {
@@ -210,7 +201,7 @@ for(rep in 1:repetitions){
       labels_Ts[aux1-nts[i]+j]=i
     }
   }
-  #labels_Ts
+  #Labels_Ts
   dat=matrix(NaN,nrow=N_t)
   dat=cbind(labels_Ts,X_s)
   dat=cbind(dat,y_t_is)
@@ -219,40 +210,30 @@ for(rep in 1:repetitions){
 #######################################################################################################  
   
   
-#using the data---------------------------------------------------
-  #we create the seeded intervals
-  s.inter<-seeded.intervals(Tb,C)
-  s.inter
+#Using the data---------------------------------------------------
   
-  #s.inter_train<-seeded.intervals(Tb/2,C)
-  #s.inter_train
-  
-  
-  #the choice of bandwidth h_bar
+  #The choice of bandwidth h_bar
   H_bar_stimated=hpi(X_s)
   H_bar_stimated
   h_bar=H_bar_stimated
   ######################################################
   ######################### CV #########################
   ######################################################
-  #creating testing and training sets.
+  #Creating testing and training sets.
   dat_train=dat[(n+1):(2*n),]
   dat_test=dat[1:n,]
   for(i in 1:(Tb/2-1)){
     dat_test=rbind(dat_test,dat[(2*i*n+1):((2*i+1)*n),])
     dat_train=rbind(dat_train,dat[((2*i+1)*n+1):((2*(i+1))*n),])
   }
-  #dat_test
-  #dat_train
   dat_train[,1]=ceiling(dat_train[,1]/2)
-  #dat_train
-  
-  #we create the seeded intervals to work with training data
+
+  #We create the seeded intervals to work with training data
   s.inter_train<-seeded.intervals(Tb/2,C)
-  #s.inter_train
+
   
   
-  #we create the estimator functions 
+  #We create the estimator functions 
   g_hat_i=function(eta1,eta2,h,x,dat_train,h_bar,phat)
   {
     res=0
@@ -263,13 +244,13 @@ for(rep in 1:repetitions){
     return(res)
   }
   
-  #we create the possible values for h and tau
+  #We create the possible values for h and tau
   h_int=seq(0.99,1.01,0.01)
   l_h_int=length(h_int)
   tau_int=c(3.4,3.65,3.9)
   l_tau_int=length(tau_int)
   
-  #we compute errors of estimation
+  #We compute errors of estimation
   errors=matrix(NaN,l_h_int,l_tau_int)
   #start_time <- Sys.time()
   for (ind1 in 1:l_h_int) {
