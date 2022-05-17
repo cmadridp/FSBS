@@ -21,7 +21,7 @@ m1.indices=sequence(t.years,from=m1.ipos,by=12)
 
 m1.data=data[[m1.indices]]
 
-#The one I want
+#extracting the data
 data=stack("sst.mon.mean.nc")
 data1=nc_open("sst.mon.mean.nc")
 lat=ncvar_get(data1,'lat')
@@ -31,12 +31,12 @@ time2=as.Date('1891-01-01')+time
 sst=ncvar_get(data1,"sst")
 image.plot(lon,rev(lat),sst[,length(lat):1,m1.indices[80]],xlab='Longitud',ylab='Latitude')
 title("Sea Surface Temperature April 2019")
-rect(xleft=251,xright = 300,ybottom=1,ytop=50, density=0, col = "green") #Red indicates the reference region to show in paper
-rect(xleft=153.5,xright = 162.5,ybottom=-28.5,ytop=-24.5, density=0, col = "black",lwd = 2.) #Regions of interest corresponding to the Caribbean Sea 
-rect(xleft=110.5,xright = 157.5,ybottom=-39.5,ytop=-10.5, density=0, col = "black",lwd=2) #Regions of interest corresponding to the Caribbean Sea 
+rect(xleft=251,xright = 300,ybottom=1,ytop=50, density=0, col = "green") 
+rect(xleft=153.5,xright = 162.5,ybottom=-28.5,ytop=-24.5, density=0, col = "black",lwd = 2.) #Regions of interest 
+rect(xleft=110.5,xright = 157.5,ybottom=-39.5,ytop=-10.5, density=0, col = "black",lwd=2) #Regions of interest 
 
 
-#plot only close to australia
+#plot of australia
 lon_australia=matrix(NaN,48,1)
 aux=-1
 for(i in 1:48){
@@ -53,7 +53,7 @@ image.plot(lon_australia,rev(lat_australia),sst[111:158,130:101,m1.indices[80]],
 title("SST Australia June 2019")
 
 
-
+########### Plotting the estimated periods #####################################
 aust.sst.jun=sst[111:158,130:101,m1.indices]
 
 means.map1=matrix(NA, nrow=dim(aust.sst.jun)[1], ncol=dim(aust.sst.jun)[2])
